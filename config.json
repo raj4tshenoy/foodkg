@@ -1,0 +1,11 @@
+{
+    "model_name": "kepler-recipe1m",
+    "train_data_path": "./data/train.jsonl",
+    "valid_data_path": "./data/valid.jsonl",
+    "test_data_path": "./data/test.jsonl",
+    "pretrained_model_path": "",
+    "batch_size": 32,
+    "learning_rate": 1e-5,
+    "max_epochs": 3,
+    "save_path": "./trained_model"
+}  
