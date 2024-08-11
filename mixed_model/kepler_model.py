@@ -1,15 +1,16 @@
 import torch
 import torch.nn as nn
-from transformers import BertModel, BertTokenizer
+from transformers import BertModel
 
 class KeplerModel(nn.Module):
-    def __init__(self, pretrained_model_name='bert-base-uncased'):
+    def __init__(self, pretrained_model_name='bert-base-uncased', entity_vocab_size=10000, relation_vocab_size=500):
         super(KeplerModel, self).__init__()
         self.bert = BertModel.from_pretrained(pretrained_model_name)
-        self.tokenizer = BertTokenizer.from_pretrained(pretrained_model_name)
+        self.entity_embeddings = nn.Embedding(entity_vocab_size, self.bert.config.hidden_size)
+        self.relation_embeddings = nn.Embedding(relation_vocab_size, self.bert.config.hidden_size)
         self.linear = nn.Linear(self.bert.config.hidden_size, self.bert.config.vocab_size)
         self.loss_fn_mlm = nn.CrossEntropyLoss()
-        self.loss_fn_kge = nn.MSELoss()  # Use MSELoss for KGE, or a suitable KGE loss function
+        self.loss_fn_kge = nn.MSELoss()  # Simple loss function for KGE; you can replace it with more sophisticated ones
 
     def forward(self, input_ids, attention_mask, token_type_ids, labels=None, triples=None):
         outputs = self.bert(input_ids=input_ids, attention_mask=attention_mask, token_type_ids=token_type_ids)
@@ -24,6 +25,7 @@ class KeplerModel(nn.Module):
             loss_mlm = None
 
         if triples is not None:
+            triples = triples.to(input_ids.device)  # Ensure triples are on the same device as the input tensors
             head_embeddings = self.get_entity_embeddings(triples[:, 0])
             relation_embeddings = self.get_relation_embeddings(triples[:, 1])
             tail_embeddings = self.get_entity_embeddings(triples[:, 2])
@@ -34,16 +36,11 @@ class KeplerModel(nn.Module):
         return loss_mlm, loss_kge
 
     def get_entity_embeddings(self, entities):
-        # Method to get entity embeddings, possibly from a separate embedding layer
-        pass
+        return self.entity_embeddings(entities)
 
     def get_relation_embeddings(self, relations):
-        # Method to get relation embeddings, possibly from a separate embedding layer
-        pass
-
-    def tokenize(self, texts):
-        return self.tokenizer(texts, padding=True, truncation=True, return_tensors="pt")
+        return self.relation_embeddings(relations)
 
     def save_pretrained(self, save_path):
         self.bert.save_pretrained(save_path)
-        self.tokenizer.save_pretrained(save_path)
+        torch.save(self.linear.state_dict(), save_path + '/linear.pth')
