@@ -25,7 +25,8 @@ def main(config_path):
     # Load datasets
     print("Loading datasets...")
     train_dataset = Recipe1MDataset(file_path=config['train_data_path'], tokenizer=tokenizer)
-    valid_dataset = Recipe1MDataset(file_path=config['valid_data_path'], tokenizer=tokenizer)
+    val_dataset = Recipe1MDataset(file_path=config['valid_data_path'], tokenizer=tokenizer)
+    test_dataset = Recipe1MDataset(file_path=config['test_data_path'], tokenizer=tokenizer)
     print("Datasets loaded.")
     
     # Initialize Trainer
@@ -33,6 +34,7 @@ def main(config_path):
     trainer = Trainer(
         model=model,
         dataset=train_dataset,
+        val_dataset=val_dataset,
         config=config
     )
     print("Trainer initialized.")
@@ -41,11 +43,12 @@ def main(config_path):
     trainer.train()
 
     # Evaluate the model
-    trainer.evaluate(valid_dataset)
+    trainer.evaluate(test_dataset)
 
     # Save the trained model
     model.save_pretrained(config['save_path'])
 
 if __name__ == "__main__":
+    torch.cuda.empty_cache()
     config_path = "config.json"  # Replace with your config path if different
     main(config_path)

@@ -9,3 +9,7 @@ data/
 
 # Ignore the training_op.txt file
 training_op.txt
+
+# Ignore saved models
+trained_model/
+mixed_model/trained_mixed_model/

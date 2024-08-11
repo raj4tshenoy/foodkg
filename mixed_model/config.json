@@ -1,0 +1,13 @@
+{
+  "model_name": "mixed-kepler",
+  "train_data_path": "../data/train.jsonl",
+  "valid_data_path": "../data/valid.jsonl",
+  "test_data_path": "../data/test.jsonl",
+  "pretrained_model_path": "",  
+  "batch_size": 8,
+  "learning_rate": 1e-6,
+  "max_epochs": 10,
+  "save_path": "./trained_mixed_model/",
+  "save_every": 1
+}
+
