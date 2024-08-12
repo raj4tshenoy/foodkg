@@ -13,3 +13,4 @@ training_op.txt
 # Ignore saved models
 trained_model/
 mixed_model/trained_mixed_model/
+mixed_model/trained_mixed_model_trial_3/
