@@ -1,0 +1,12 @@
+{
+  "model_name": "kepler-recipe1m",
+  "train_data_path": "/content/drive/MyDrive/Repos/foodkg/data/train.jsonl",
+  "valid_data_path": "/content/drive/MyDrive/Repos/foodkg/data/valid.jsonl",
+  "test_data_path": "/content/drive/MyDrive/Repos/foodkg/data/test.jsonl",
+  "pretrained_model_path": "",  
+  "batch_size": 64,
+  "learning_rate": 1e-5,
+  "max_epochs": 3,
+  "save_path": "/content/drive/MyDrive/Repos/foodkg/trained_mixed_model_trial_3/",
+  "save_every": 1
+}

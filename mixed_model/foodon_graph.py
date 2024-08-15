@@ -1,4 +1,9 @@
 from rdflib import Graph, URIRef, Literal
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def load_foodon_graph():
     # Load the FoodOn ontology
@@ -12,10 +17,13 @@ def get_foodon_triples(graph):
         if isinstance(s, URIRef) and isinstance(p, URIRef):
             # Filter out literals with datetime or other unsupported formats
             if isinstance(o, Literal):
-                if o.datatype and 'dateTime' in o.datatype:
-                    continue
-                if isinstance(o.value, (str, int, float)):
-                    triples.append((str(s), str(p), str(o)))
+                try:
+                    if o.datatype and 'dateTime' in o.datatype:
+                        continue
+                    if isinstance(o.value, (str, int, float)):
+                        triples.append((str(s), str(p), str(o)))
+                except Exception as e:
+                    logger.warning(f"Skipping literal with parsing issue: {o} - {e}")
             else:
                 triples.append((str(s), str(p), str(o)))
     return triples

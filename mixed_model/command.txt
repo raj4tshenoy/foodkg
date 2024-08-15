@@ -1,0 +1,1 @@
+python3 cli.py --model_path ./trained_mixed_model_trial_4/checkpoint_epoch_4-001.pth --entity2id_path ./trained_mixed_model_trial_4/entity2id.json --embedding_path ./trained_mixed_model_trial_4/entity_embeddings.npy --tokenizer_path ./trained_mixed_model_trial_4/tokenizer/ --top_k 5 --entity "apple"
