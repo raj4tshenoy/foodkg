@@ -1,3 +1,4 @@
+# VERSION 2
 import torch
 import argparse
 import json

@@ -15,3 +15,8 @@ trained_model/
 mixed_model/trained_mixed_model/
 mixed_model/trained_mixed_model_trial_3/
 mixed_model/trained_mixed_model_trial_4/
+mixed_model/trained_mixed_model_trial_5/
+mixed_model/trained_recipe1m/
+
+# Ignore Mac system files
+.DS_Store
